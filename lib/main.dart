@@ -3,7 +3,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 import 'data/loan_repository.dart';
-import 'screens/home_screen.dart';
+import 'screens/root_shell.dart';
 import 'theme.dart';
 
 void main() {
@@ -42,7 +42,7 @@ class _IpahiramAppState extends State<IpahiramApp> {
       locale: DevicePreview.locale(context),
       builder: DevicePreview.appBuilder,
       theme: appTheme,
-      home: HomeScreen(repository: _repository),
+      home: RootShell(repository: _repository),
     );
   }
 }
