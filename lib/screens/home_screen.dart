@@ -2,17 +2,16 @@ import 'package:flutter/material.dart';
 
 import '../data/loan_repository.dart';
 import '../theme.dart';
-import '../widgets/app_tab_bar.dart';
 import '../widgets/loan_card.dart';
+import 'item_detail_screen.dart';
 import 'new_loan_screen.dart';
 
 /// Home / Active Loans screen (proposal, Section 2.A), laid out to match
 /// the approved mockup: title, a dashed "N items out" summary pill, the
-/// "Active Loans" section label, the card list, a glowing FAB, and the
-/// bottom Active/History tab bar.
+/// "Active Loans" section label, the card list and a glowing FAB.
 ///
-/// Tapping a card and the FAB are stubbed with a SnackBar until Week 2's
-/// Feature 1 (Log an Item) and Feature 4 (Item Detail) are built.
+/// The bottom Active/History tab bar lives in RootShell. Tapping a card
+/// opens Item Detail; the FAB opens New Loan.
 class HomeScreen extends StatelessWidget {
   final LoanRepository repository;
 
@@ -61,14 +60,14 @@ class HomeScreen extends StatelessWidget {
                                 final loan = activeLoans[index];
                                 return LoanCard(
                                   loan: loan,
-                                  onTap: () {
-                                    ScaffoldMessenger.of(context).showSnackBar(
-                                      const SnackBar(
-                                        content: Text(
-                                            'Item Detail screen — coming Week 2'),
+                                  onTap: () => Navigator.of(context).push(
+                                    MaterialPageRoute(
+                                      builder: (_) => ItemDetailScreen(
+                                        repository: repository,
+                                        loanId: loan.id,
                                       ),
-                                    );
-                                  },
+                                    ),
+                                  ),
                                 );
                               },
                             ),
@@ -85,7 +84,7 @@ class HomeScreen extends StatelessWidget {
           shape: BoxShape.circle,
           boxShadow: [
             BoxShadow(
-              color: AppColors.primary.withOpacity(0.45),
+              color: AppColors.primary.withValues(alpha: 0.45),
               blurRadius: 20,
               spreadRadius: 2,
             ),
@@ -104,20 +103,9 @@ class HomeScreen extends StatelessWidget {
           child: const Icon(Icons.add),
         ),
       ),
-      bottomNavigationBar: AppTabBar(
-        currentIndex: 0,
-        onTabSelected: (index) {
-          if (index == 1) {
-            ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(content: Text('History screen — coming Week 2/3')),
-            );
-          }
-        },
-      ),
     );
   }
 }
-
 /// The dashed-border "N items out" summary pill under the title.
 class _ItemsOutPill extends StatelessWidget {
   final int count;
