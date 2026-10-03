@@ -74,6 +74,28 @@ class LoanRepository extends ChangeNotifier {
     await _persist();
   }
 
+  Future<void> updateLoan(
+    String id, {
+    required String itemName,
+    required String borrower,
+    required DateTime dueDate,
+    String? note,
+  }) async {
+    _loans = _loans
+        .map((l) => l.id == id
+            ? l.copyWith(
+                itemName: itemName,
+                borrower: borrower,
+                dueDate: dueDate,
+                note: note,
+                clearNote: note == null,
+              )
+            : l)
+        .toList();
+    notifyListeners();
+    await _persist();
+  }
+  
   Future<void> markReturned(String id, {DateTime? returnedAt}) async {
     _loans = _loans
         .map((l) => l.id == id
