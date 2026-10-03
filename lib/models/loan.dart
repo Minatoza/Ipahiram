@@ -38,12 +38,13 @@ class Loan {
     return returnedAt!.difference(dateLent).inDays;
   }
 
-  Loan copyWith({
+   Loan copyWith({
     String? itemName,
     String? borrower,
     DateTime? dateLent,
     DateTime? dueDate,
     String? note,
+    bool clearNote = false,
     DateTime? returnedAt,
   }) {
     return Loan(
