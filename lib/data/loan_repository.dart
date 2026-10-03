@@ -3,6 +3,7 @@ import 'package:flutter/foundation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../models/loan.dart';
+import '../services/notification_service.dart';
 
 /// Everything the app knows about loans, and the only place that touches
 /// storage. Screens listen to this with ListenableBuilder instead of
@@ -59,6 +60,7 @@ class LoanRepository extends ChangeNotifier {
     }
 
     _isLoaded = true;
+    await NotificationService.instance.rescheduleAll(_loans);
     notifyListeners();
   }
 
@@ -71,6 +73,7 @@ class LoanRepository extends ChangeNotifier {
   Future<void> addLoan(Loan loan) async {
     _loans = [..._loans, loan];
     notifyListeners();
+    await NotificationService.instance.scheduleForLoan(loan);
     await _persist();
   }
 
@@ -92,10 +95,12 @@ class LoanRepository extends ChangeNotifier {
               )
             : l)
         .toList();
+        final updated = _loans.firstWhere((l) => l.id == id);
+    await NotificationService.instance.scheduleForLoan(updated);
     notifyListeners();
     await _persist();
   }
-  
+
   Future<void> markReturned(String id, {DateTime? returnedAt}) async {
     _loans = _loans
         .map((l) => l.id == id
@@ -103,6 +108,7 @@ class LoanRepository extends ChangeNotifier {
             : l)
         .toList();
     notifyListeners();
+    await NotificationService.instance.cancelForLoan(id);
     await _persist();
   }
 
@@ -110,6 +116,8 @@ class LoanRepository extends ChangeNotifier {
     _loans =
         _loans.map((l) => l.id == id ? l.copyWith(dueDate: newDueDate) : l).toList();
     notifyListeners();
+    final updated = _loans.firstWhere((l) => l.id == id);
+    await NotificationService.instance.scheduleForLoan(updated);
     await _persist();
   }
 }
