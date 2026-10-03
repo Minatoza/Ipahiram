@@ -38,7 +38,6 @@ class _IpahiramAppState extends State<IpahiramApp> {
     return MaterialApp(
       title: 'Ipahiram',
       debugShowCheckedModeBanner: false,
-      useInheritedMediaQuery: true,
       locale: DevicePreview.locale(context),
       builder: DevicePreview.appBuilder,
       theme: appTheme,

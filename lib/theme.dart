@@ -36,7 +36,6 @@ final ThemeData appTheme = ThemeData(
   scaffoldBackgroundColor: AppColors.background,
   fontFamily: 'Roboto', // Material 3 default — no google_fonts needed.
   colorScheme: const ColorScheme.dark(
-    background: AppColors.background,
     primary: AppColors.primary,
     onPrimary: AppColors.onPrimary,
     secondary: AppColors.secondary,
