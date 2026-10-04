@@ -6,9 +6,10 @@
   New here? Read START-HERE.md first. Delete this comment when you are done.
 -->
 
-# App Name
+# Ipahiram
 
-> One sentence: what this app does, and who it is for.
+>  A loan tracker for anything you lend to friends — log it, see what's overdue, and mark it returned.
+
 
 **Live demo:** https://Minatoza.github.io/Ipahiram/ <!-- GitHub Pages is set up already; replace if you host elsewhere -->
 **Demo video:** `docs/demo.mp4` (link it here once it exists)
@@ -32,8 +33,6 @@ this paragraph with them:
 | --- | --- | --- | --- |
 | ![Home](docs/assets/screen-home.png) | ![New Loan](docs/assets/screen-new-loan.png) | ![Item Detail](docs/assets/screen-detail.png) | ![History](docs/assets/screen-history.png) |
 
-![Edit Loan](docs/assets/screen-edit-loan.png)
-
 
 A repo without screenshots reads as abandoned, whatever the code says.
 
@@ -41,29 +40,32 @@ A repo without screenshots reads as abandoned, whatever the code says.
 
 Three to five bullets. What can a user actually do?
 
-- ...
-- ...
-- ...
+- Log an item you lent: what, who to, due date, optional note, optional photo
+- See active loans sorted by due date, with Overdue / Due today / Due in Nd badges
+- Open a loan to edit it, extend its due date, or mark it returned
+- Browse History of returned loans, with days out
+- Get a due-date reminder notification on Android/iOS (guarded off on web, where a banner explains this instead)
+- Everything is saved on your device and survives a refresh
 
 ## Built with
 
 | | |
 | --- | --- |
 | Framework | Flutter (Dart) |
-| State | `setState` / provider / riverpod (say which) |
-| Storage | shared_preferences / Hive / Drift / Firebase / Supabase / other |
-| Other packages | list the ones that matter, with a word on why |
+| State | `ChangeNotifier` repository (`LoanRepository`) + `ListenableBuilder` |
+| Storage | shared_preferences (one JSON list, key `ipahiram.loans.v1`) |
+| Other packages | `image_picker` (item photos), `flutter_local_notifications` + `timezone` (due-date reminders), `device_preview` (phone frame in both debug and the live demo) |
 
 ## Running it yourself
 
 ```bash
 flutter pub get
-cp .env.example .env      # only if your app needs keys, see below
-flutter run -d web-server --web-port 8080
+flutter run -d chrome
 ```
 
-Then open http://localhost:8080. Requires Flutter (run `flutter --version` and
-put yours here).
+Then the app opens in Chrome. Built with Flutter 3.44.8 (stable channel), Dart SDK ^3.8.0 — run `flutter --version` to check yours.
+
+No `.env` setup needed — Ipahiram has no backend and no API keys.
 
 ### Environment variables
 
@@ -77,14 +79,13 @@ result.
 
 ## Privacy and secrets
 
-Required section. Two or three honest sentences:
-
-- What personal data this app stores, if any, and where it goes.
-- Where the secrets live (`.env` locally, repository secrets in the deploy
-  workflow) and what protects the data on the service side (Firestore rules,
-  Supabase RLS, or "nothing leaves the device").
-- Confirm that all sample data, screenshots and the video contain **no real
-  personal information**.
+Ipahiram stores loans (item name, borrower's first name, dates, optional
+note, optional photo) only on your own device, in browser/local storage
+(`shared_preferences`). Nothing is sent anywhere — there is no backend, no
+server, and no account. There are no secrets in this repository or in the
+deploy workflow; `.env.example` is an unused leftover from the course
+template. All sample data, screenshots and the demo video use made-up names
+only.
 
 ## Project documentation
 
@@ -100,34 +101,39 @@ Required section. Two or three honest sentences:
 
 ## Status and what is next
 
-Be honest. What works, what is half done, what you would build next. An honest
-"known issues" section reads better than a claim the reader disproves in thirty
-seconds.
+**Works:** logging loans with an optional photo, Item Detail (edit, extend,
+return), History, Active/History tabs, saving across a refresh, the web
+fallback banner for notifications.
+
+**Known issues:** the reminder notification (`NotificationService`) is fully
+implemented and wired into every repository method that adds, edits,
+extends, or returns a loan, and is verified not to crash on the web build,
+where it's intentionally a no-op. I was not able to complete an on-device
+Android test — I got through SDK setup, emulator configuration, and a
+Gradle cache failure, but stopped at a Windows Developer Mode requirement I
+couldn't enable on this machine (full account in `AI-USAGE.md`). The
+computed overdue badge on Home remains the tested, working fallback either
+way. The due date field also only picks a day, not a specific time.
 
 ## Credits
 
 - Packages: see `pubspec.yaml`
-- Assets, icons, 3D models, sounds: name the author and the licence for each
-- People who helped, and how
+- Icons: Material Symbols (bundled with Flutter)
+- No other third-party assets, 3D models, or sounds used
 
 ## AI use
 
-If you used AI while building this, say so here. Honest disclosure is the
-standard in this course and increasingly outside it, and reporting heavy use
-accurately costs you nothing.
-
-This section is the last 10 points of the finals badge, and it wants three
-things:
+Built with Claude (Anthropic) for code suggestions, debugging, and
+documentation help throughout the project — covering the core app
+structure, Item Detail/History/navigation, the Edit Loan feature, the
+reminder notification system, and the item photo feature.
 
 ![Built with AI assistance](https://img.shields.io/badge/built%20with-AI%20assistance-0b5fff)
 
-- the badge above, or one you like better
-- a line naming which assistant you used and how much of the work it touched
-- a link to [AI-USAGE.md](AI-USAGE.md), where the full account lives
+See [AI-USAGE.md](AI-USAGE.md) for the full account, including where the AI
+got things wrong and which parts of the code I wrote and debugged myself.
 
-Keep the detail in `AI-USAGE.md` rather than here. This section is the summary a
-visitor reads; that file is the record the badge is graded from.
 
 ## Licence
 
-MIT, see [LICENSE](LICENSE). Change it if you want different terms.
+MIT, see [LICENSE](LICENSE). 
