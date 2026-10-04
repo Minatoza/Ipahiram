@@ -28,9 +28,11 @@ Put two or three real screenshots at phone size in `docs/assets/`, then replace
 this paragraph with them:
 
 ```markdown
-| Home | Detail | Add |
-| --- | --- | --- |
-| ![Home](docs/assets/screen-home.png) | ![Detail](docs/assets/screen-detail.png) | ![Add](docs/assets/screen-add.png) |
+| Home | New Loan | Item Detail | History |
+| --- | --- | --- | --- |
+| ![Home](docs/assets/screen-home.png) | ![New Loan](docs/assets/screen-new-loan.png) | ![Item Detail](docs/assets/screen-detail.png) | ![History](docs/assets/screen-history.png) |
+
+![Edit Loan](docs/assets/screen-edit-loan.png)
 ```
 
 A repo without screenshots reads as abandoned, whatever the code says.
