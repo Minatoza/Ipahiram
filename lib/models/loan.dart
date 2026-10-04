@@ -40,7 +40,7 @@ class Loan {
     return returnedAt!.difference(dateLent).inDays;
   }
 
-   Loan copyWith({
+  Loan copyWith({
     String? itemName,
     String? borrower,
     DateTime? dateLent,
@@ -48,6 +48,8 @@ class Loan {
     String? note,
     bool clearNote = false,
     DateTime? returnedAt,
+    String? photoBase64,
+    bool clearPhoto = false,
   }) {
     return Loan(
       id: id,
@@ -55,8 +57,9 @@ class Loan {
       borrower: borrower ?? this.borrower,
       dateLent: dateLent ?? this.dateLent,
       dueDate: dueDate ?? this.dueDate,
-      note: note ?? this.note,
+      note: clearNote ? null : (note ?? this.note),
       returnedAt: returnedAt ?? this.returnedAt,
+      photoBase64: clearPhoto ? null : (photoBase64 ?? this.photoBase64),
     );
   }
 
@@ -68,6 +71,7 @@ class Loan {
         'dueDate': dueDate.toIso8601String(),
         'note': note,
         'returnedAt': returnedAt?.toIso8601String(),
+        'photoBase64': photoBase64,
       };
 
   factory Loan.fromJson(Map<String, dynamic> json) => Loan(
@@ -80,5 +84,6 @@ class Loan {
         returnedAt: json['returnedAt'] == null
             ? null
             : DateTime.parse(json['returnedAt'] as String),
+        photoBase64: json['photoBase64'] as String?,
       );
 }
