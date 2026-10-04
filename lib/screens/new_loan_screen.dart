@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../data/loan_repository.dart';
 import '../models/loan.dart';
 import '../theme.dart';
+import '../widgets/photo_picker_field.dart';
 
 /// New Loan screen (proposal, Feature 1 — "Log an Item").
 /// Lets the user type in what they're lending, who to, and when it's due,
@@ -22,7 +23,8 @@ class _NewLoanScreenState extends State<NewLoanScreen> {
   final _borrowerController = TextEditingController();
   final _noteController = TextEditingController();
 
-  DateTime _dueDate = DateTime.now().add(const Duration(days: 7));
+  DateTime _dueDate = DateTime.now().add(const Duration(days: 1));
+  String? _photoBase64;
   bool _isSaving = false;
 
   @override
@@ -71,6 +73,7 @@ class _NewLoanScreenState extends State<NewLoanScreen> {
       dateLent: DateTime.now(),
       dueDate: _dueDate,
       note: _noteController.text.trim().isEmpty ? null : _noteController.text.trim(),
+      photoBase64: _photoBase64,
     );
 
     await widget.repository.addLoan(loan);
@@ -102,6 +105,11 @@ class _NewLoanScreenState extends State<NewLoanScreen> {
                       const SizedBox(width: AppSpacing.sm),
                       Text('New Loan', style: textTheme.headlineSmall),
                     ],
+                  ),
+                  const SizedBox(height: AppSpacing.md),
+                  PhotoPickerField(
+                    photoBase64: _photoBase64,
+                    onChanged: (value) => setState(() => _photoBase64 = value),
                   ),
                   const SizedBox(height: AppSpacing.md),
                   _FieldLabel('What are you lending?'),
