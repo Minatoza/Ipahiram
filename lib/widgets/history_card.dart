@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../models/loan.dart';
 import '../theme.dart';
 import '../utils/format.dart';
+import 'item_photo.dart';
 
 /// A returned loan in the History list.
 class HistoryCard extends StatelessWidget {
@@ -29,6 +30,8 @@ class HistoryCard extends StatelessWidget {
           padding: const EdgeInsets.all(AppSpacing.md),
           child: Row(
             children: [
+              ItemPhoto(itemName: loan.itemName, photoBase64: loan.photoBase64),
+              const SizedBox(width: AppSpacing.md),
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
