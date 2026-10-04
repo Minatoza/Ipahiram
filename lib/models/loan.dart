@@ -13,8 +13,9 @@ class Loan {
   final DateTime dueDate;
   final String? note;
   final DateTime? returnedAt;
+  final String? photoBase64;
 
-  const Loan({
+   const Loan({
     required this.id,
     required this.itemName,
     required this.borrower,
@@ -22,6 +23,7 @@ class Loan {
     required this.dueDate,
     this.note,
     this.returnedAt,
+    this.photoBase64,
   });
 
   /// True while the loan has not been marked returned.
