@@ -56,6 +56,35 @@ Three to five bullets. What can a user actually do?
 | Storage | shared_preferences (one JSON list, key `ipahiram.loans.v1`) |
 | Other packages | `image_picker` (item photos), `flutter_local_notifications` + `timezone` (due-date reminders), `device_preview` (phone frame in both debug and the live demo) |
 
+## Project structure
+```
+lib/
+  main.dart                     
+  theme.dart                     
+  models/
+    loan.dart                   
+  data/
+    loan_repository.dart         
+  services/
+    notification_service.dart    
+  screens/
+    root_shell.dart              
+    home_screen.dart            
+    new_loan_screen.dart         
+    edit_loan_screen.dart        
+    item_detail_screen.dart      
+    history_screen.dart         
+  widgets/
+    loan_card.dart                
+    history_card.dart             
+    item_photo.dart               
+    photo_picker_field.dart        
+    loan_status_badge.dart        
+    app_tab_bar.dart              
+  utils/
+    format.dart                   
+```
+
 ## Running it yourself
 
 ```bash
@@ -67,15 +96,6 @@ Then the app opens in Chrome. Built with Flutter 3.44.8 (stable channel), Dart S
 
 No `.env` setup needed — Ipahiram has no backend and no API keys.
 
-### Environment variables
-
-This project reads its configuration from a `.env` file that is **not** in the
-repository. Copy `.env.example`, fill in your own values, and never commit the
-result.
-
-| Variable | What it is | Where to get one |
-| --- | --- | --- |
-| `EXAMPLE_API_KEY` | ... | ... |
 
 ## Privacy and secrets
 
