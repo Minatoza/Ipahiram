@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../models/loan.dart';
 import '../theme.dart';
+import 'item_photo.dart';
 import 'loan_status_badge.dart';
 
 /// lib/widgets/loan_card.dart — Design System component #1.
@@ -49,7 +50,7 @@ class LoanCard extends StatelessWidget {
                 padding: const EdgeInsets.all(AppSpacing.md),
                 child: Row(
                   children: [
-                    _ItemAvatar(itemName: loan.itemName),
+                    ItemPhoto(itemName: loan.itemName, photoBase64: loan.photoBase64),
                     const SizedBox(width: AppSpacing.md),
                     Expanded(
                       child: Column(
@@ -73,45 +74,5 @@ class LoanCard extends StatelessWidget {
         ],
       ),
     );
-  }
-}
-
-/// Rounded-square icon avatar. The Design System doc folded "Item Photo"
-/// into this icon slot since real photos are a stretch goal — this picks
-/// an icon by matching keywords in the item name, since there's no
-/// category field on Loan yet.
-class _ItemAvatar extends StatelessWidget {
-  final String itemName;
-
-  const _ItemAvatar({required this.itemName});
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      width: 44,
-      height: 44,
-      decoration: BoxDecoration(
-        color: AppColors.avatarBackground,
-        borderRadius: BorderRadius.circular(10),
-      ),
-      child: Icon(_iconFor(itemName), color: AppColors.primary, size: 20),
-    );
-  }
-
-  IconData _iconFor(String name) {
-    final n = name.toLowerCase();
-    if (n.contains('drill') || n.contains('screwdriver') || n.contains('tool')) {
-      return Icons.handyman_rounded;
-    }
-    if (n.contains('charger') || n.contains('cable') || n.contains('battery')) {
-      return Icons.power_rounded;
-    }
-    if (n.contains('game') || n.contains('board')) {
-      return Icons.sports_esports_rounded;
-    }
-    if (n.contains('book')) {
-      return Icons.menu_book_rounded;
-    }
-    return Icons.inventory_2_rounded;
   }
 }
